@@ -19,27 +19,28 @@ const images = [
     {
         src: "/images/autochek.jpeg",
         alt: "Image 3",
-        description: "Description for Image 3Description for Image 3",
+        description: "I was in charge of managing over a team of frontend developers in more than 4 African countries. A platform that helps you buy or get cars on loan",
     },
     {
+      
         src: "/images/secapay.jpeg",
         alt: "Image 1",
-        description: "Description for Image 1",
+        description: "Core Engineer that help build Secapay which offers a platform for secure buy and sell + payments. Easily buy and sell goods without hassle or worries with escrow payment options and more.",
     },
     {
         src: "/images/requid.png",
         alt: "Image 2",
-        description: "Description for Image 2",
+        description: "Led the front end team that oversaw the development, and documentation procedures of reQuid web and mobile apps.",
     },
     {
         src: "/images/kidz.png",
         alt: "Image 2",
-        description: "Description for Image 2",
+        description: "Built structural enrichment programs that caters for 53 millions children across the USA. Also Developed and optimized the admin, vendor and customer facing react/next js applications.",
     },
     {
         src: "/images/cert.jpeg",
         alt: "Image 2",
-        description: "Description for Image 2",
+        description: "Developed and maintained the security and privacy protocols to ensure the protection of sensitive customer information for the electronic signature platform.",
     },
 ];
 

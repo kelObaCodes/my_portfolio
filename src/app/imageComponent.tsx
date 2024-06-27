@@ -26,15 +26,19 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
 
             <div className="descriptionBox">
                 <div>
+                    <div>
+
                     <Image
                         width={40}
                         height={40}
                         src={src}
                         alt={alt}
-                        className="image"
                     />
-                    {description} ncghgchc
-                    {description} ncghgchc
+                    </div>
+<p className="decription-text">
+{description} 
+
+</p>
                 </div>
             </div>
         </div>
