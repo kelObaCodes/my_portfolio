@@ -40,7 +40,7 @@ const images = [
     {
         src: "/images/cert.jpeg",
         alt: "Image 2",
-        description: "Developed and maintained the security and privacy protocols to ensure the protection of sensitive customer information for the electronic signature platform.",
+        description: "Developed and maintained the security and privacy protocols to ensure the protection of sensitive customer information for the electronic signature platform in Switzerland.",
     },
 ];
 
