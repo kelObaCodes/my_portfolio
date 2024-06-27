@@ -2,13 +2,12 @@
 import { useState } from "react";
 import styles from "./page.module.css";
 import Image from "next/image";
-import user_img from "../../public/images/prof.png";
 import calc_ext from "../../public/images/calc.png";
 import ImageComponent from "./imageComponent";
 const parentContainer = [
     {
         name: "child1",
-        column1: "Hi!, I'm Kelvin a frontend Engineer, writer and teacher",
+        column1: "Hi!, I'm Kelvin a frontend Engineer, writer and teacher.",
 
         column2: "hello 3",
     },
@@ -65,21 +64,11 @@ export default function Home() {
 
     return (
         <>
-            {/* <Image
-                src={user_img}
-                alt="great"
-                className="pattern"
-                width={2340}
-            /> */}
+
             <div className={styles.parentContainer}>
                 <div className={styles.childContainer}>
                     <div className={`${styles.column} ${styles.column1}`}>
-                        <Image
-                            src={user_img}
-                            alt="great"
-                            className="image-user"
-                            width={100}
-                        />
+                    
 
                         <h2 className="head-text">
                             {parentContainer[currentIndex].column1}
@@ -117,17 +106,23 @@ export default function Home() {
                         </h2>
 
 <p className="mg-top-30">Calculator/ Unit Conversion chrome extension:</p>
-                        <Image
+                        {/* <Image
                             src={calc_ext}
                             alt="calculator extension"
                             className="mg-top-30"
                             // width={500}
                             // height={300}
                             layout="responsive"
+                        /> */}
+
+                        <img src="/images/calc.png"
+                          width={500}
+                            height={300}
+                            className="mg-top-30"
                         />
                     </div>
                 </div>
-                <div
+                {/* <div
                     className={`${styles.arrow} ${styles.arrowLeft}`}
                     onClick={prevChild}
                 >
@@ -138,7 +133,7 @@ export default function Home() {
                     onClick={nextChild}
                 >
                     &#877a8b44;
-                </div>
+                </div> */}
             </div>
         </>
     );
