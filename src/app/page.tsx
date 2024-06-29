@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./page.module.css";
 import Image from "next/image";
 import calc_ext from "../../public/images/calc.png";
@@ -44,8 +44,9 @@ const images = [
     },
 ];
 
-export default function Home() {
+export default function Home(props:any) {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [showComopanies, setShowCompanies] = useState(true);
 
     const updateChildContainer = (index: number) => {
         setCurrentIndex(index);
@@ -62,6 +63,13 @@ export default function Home() {
             currentIndex < parentContainer.length - 1 ? currentIndex + 1 : 0;
         updateChildContainer(newIndex);
     };
+
+    useEffect(()=>{
+console.log(props, 'props')
+if(props.searchParams.src === "chrome_calculator_extension" ){
+  setShowCompanies(false)
+}
+    },[])
 
     return (
         <>
@@ -80,16 +88,20 @@ export default function Home() {
                             Projects at Early Stage and Series A Companies.
                         </p>
 
-                        <div className="company-img">
-                            {images.map((image, index) => (
-                                <ImageComponent
-                                    key={index}
-                                    src={image.src}
-                                    alt={image.alt}
-                                    description={image.description}
-                                />
-                            ))}
-                        </div>
+{
+  showComopanies && 
+  <div className="company-img">
+  {images.map((image, index) => (
+      <ImageComponent
+          key={index}
+          src={image.src}
+          alt={image.alt}
+          description={image.description}
+      />
+  ))}
+</div>
+}
+                       
 
                         <div>
                             <a
