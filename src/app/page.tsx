@@ -46,7 +46,7 @@ const images = [
 
 export default function Home(props:any) {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [showComopanies, setShowCompanies] = useState(true);
+    const [showComopanies, setShowCompanies] = useState(false);
 
     const updateChildContainer = (index: number) => {
         setCurrentIndex(index);
