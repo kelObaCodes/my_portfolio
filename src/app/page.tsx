@@ -65,7 +65,6 @@ export default function Home(props:any) {
     };
 
     useEffect(()=>{
-console.log(props, 'props')
 if(props.searchParams.src === "chrome_calculator_extension" ){
   setShowCompanies(false)
 }
