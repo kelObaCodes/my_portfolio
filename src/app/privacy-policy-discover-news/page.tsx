@@ -29,7 +29,7 @@ const PrivacyPolicy = () => {
       <div className="data-content">
         <h3>Permissions</h3>
         <ul>
-        <li><strong>Language, timezone and or country code :</strong>  Used to determine your location for serving localized news.</li>
+  
         <li><strong>Storage:</strong> Used for saving user preferences, such as theme settings, quick links.</li>
         </ul>
 
