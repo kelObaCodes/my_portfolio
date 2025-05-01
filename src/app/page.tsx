@@ -120,7 +120,8 @@ const projects: Project[] = [
   }
 ];
 
-export const Portfolio: React.FC = () => {
+// Remove the named export and keep only the default export
+export default function Page() {
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
   const [projectType, setProjectType] = useState<'open-source' | 'company'>('open-source');
 
@@ -267,6 +268,4 @@ export const Portfolio: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default Portfolio;
+}
