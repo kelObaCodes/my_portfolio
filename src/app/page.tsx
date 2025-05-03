@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   CodeIcon, 
@@ -9,10 +9,13 @@ import {
   ArrowRightIcon,
   BracketsIcon,
   ServerIcon,
-  CloudIcon
+  CloudIcon,
+  GithubIcon,
+  LinkedinIcon,
+  SunIcon,
+  MoonIcon,
+  ExternalLinkIcon
 } from 'lucide-react';
-
-import styles from './Portfolio.module.css';
 
 interface Skill {
   icon: React.ElementType;
@@ -94,177 +97,336 @@ const projects: Project[] = [
   {
     id: 5,
     title: "Discover news",
-    description: "Replaces the default new tab page with a customizable news section, quick links, note taking and more.Discover news provides a fully customisable new tab experience that enhances your browsing efficiency and productivity. With features like news from around the world, note management with advanced filtering, image carousel, local news, and theme customisation,this extension is designed to streamline your daily tasks and make your browser more personalised and useful.",
+    description: "Replaces the default new tab page with a customizable news section, quick links, note taking and more. Enhances browsing efficiency with features like news from around the world, note management, and theme customisation.",
     technologies: ["Javascript", "CSS3", "HTML", "Chrome ext"],
     imageUrl: "/images/discover.png",
     githubLink: "#",
+    demoLink: "#",
     type: 'open-source'
   },
   {
     id: 6,
     title: "Scientific calculator & unit converter",
-    description: "A calculator with result history, also includes a unit conversion feature that helps you to convert Length, Temperature, Mass.This Chrome extension provides users with a powerful, dual-function tool: a calculator and a unit converter. It offers a sleek and responsive user interface that adapts to both light and dark themes, ensuring a comfortable experience regardless of your preference or ambient lighting. Additionally, it includes a history feature for past calculations, enhancing productivity by allowing users to review previous entries.",
+    description: "A calculator with result history, also includes a unit conversion feature that helps you to convert Length, Temperature, Mass. Features a sleek and responsive UI that adapts to both light and dark themes.",
     technologies: ["Javascript", "CSS3", "HTML", "Chrome ext"],
     imageUrl: "/images/calc.png",
     githubLink: "#",
+    demoLink: "#",
     type: 'open-source'
   },
   {
     id: 7,
+    title: "Periodic table & Nutrition",
+    description: "NutriElements is an educational Chrome extension that helps users explore chemical elements, their food sources, and industrial applications. The extension features an interactive periodic table, nutrition information, and industry-specific element usage.",
+    technologies: ["Javascript", "CSS3", "HTML", "Chrome ext"],
+    imageUrl: "/images/periodic.png",
+    githubLink: "#",
+    demoLink: "#",
+    type: 'open-source'
+  },
+  {
+    id: 8,
     title: "React snippets for vscode",
-    description: "The React Snippets extension for Visual Studio Code enhances your React development workflow by providing a comprehensive collection of code snippets. These snippets help you quickly insert common React patterns, hooks, and components, saving you valuable time and effort. Whether you are a beginner or an experienced developer, these snippets will streamline your coding process and boost your productivity.",
+    description: "The React Snippets extension for Visual Studio Code enhances your React development workflow by providing a comprehensive collection of code snippets that boost productivity.",
     technologies: ["Javascript", "vscode"],
     imageUrl: "/images/snippet.png",
     githubLink: "#",
+    demoLink: "#",
     type: 'open-source'
   }
 ];
 
-// Remove the named export and keep only the default export
 export default function Page() {
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
   const [projectType, setProjectType] = useState<'open-source' | 'company'>('open-source');
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   // Filter projects based on selected type
   const filteredProjects = projects.filter(project => project.type === projectType);
 
+  // Check system preference for dark mode on initial load
+  useEffect(() => {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setIsDarkMode(prefersDark);
+    
+    // Apply theme class to body
+    document.body.classList.toggle('dark-theme', prefersDark);
+  }, []);
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+    document.body.classList.toggle('dark-theme');
+  };
+
   const nextProject = () => {
-    setCurrentProjectIndex((prev) => 
-      (prev + 1) % filteredProjects.length
-    );
+    if (isTransitioning) return;
+    
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentProjectIndex((prev) => 
+        (prev + 1) % filteredProjects.length
+      );
+      setIsTransitioning(false);
+    }, 300);
   };
 
   const prevProject = () => {
-    setCurrentProjectIndex((prev) => 
-      prev === 0 ? filteredProjects.length - 1 : prev - 1
-    );
+    if (isTransitioning) return;
+    
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentProjectIndex((prev) => 
+        prev === 0 ? filteredProjects.length - 1 : prev - 1
+      );
+      setIsTransitioning(false);
+    }, 300);
+  };
+
+  const switchProjectType = (type: 'open-source' | 'company') => {
+    if (projectType === type) return;
+    
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setProjectType(type);
+      setCurrentProjectIndex(0);
+      setIsTransitioning(false);
+    }, 300);
   };
 
   const currentProject = filteredProjects[currentProjectIndex];
 
   return (
-    <div className={styles.portfolio}>
-      <div className={styles.portfolioGrid}>
-        <div className={styles.profileColumn}>
-          <div className={styles.profileHeader}>
-            <div className={styles.profilePicture}>
-              <img 
-                src="/images/prof.png" 
-                alt="Kelvin Igbinoba" 
-              />
-            </div>
-            <h1>Kelvin Igbinoba</h1>
-            <p className={styles.subtitle}>Senior Frontend Engineer</p>
-            
-            <div className={styles.socialLinks}>
-              {/* <a href="#" aria-label="GitHub"><GithubIcon /></a>
-              <a href="#" aria-label="LinkedIn"><LinkedinIcon /></a>
-              <a href="#" aria-label="Contact"><MailIcon /></a> */}
-            </div>
-          </div>
+    <div className={`portfolio ${isDarkMode ? 'dark-theme' : 'light-theme'}`}>
+      <div className="theme-toggle" onClick={toggleTheme}>
+        <motion.div 
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          {isDarkMode ? <SunIcon /> : <MoonIcon />}
+        </motion.div>
+      </div>
 
-          <div className={styles.skillsSection}>
-            <h2>Core Competencies</h2>
-            {skills.map((skill, index) => (
-              <motion.div 
-                key={index} 
-                className={styles.skillCard}
-                initial={{ opacity: 0, x: -50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.2 }}
-              >
-                <div className={styles.skillIcon}>
-                  <skill.icon />
-                </div>
-                <div className={styles.skillContent}>
-                  <h3>{skill.title}</h3>
-                  <p>{skill.description}</p>
-                </div>
-              </motion.div>
-            ))}
+      <div className="portfolio-container">
+        <motion.div 
+          className="profile-section"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="profile-picture">
+            <img src="/images/prof.png" alt="Mel" />
           </div>
-        </div>
-
-        <div className={styles.projectColumn}>
-          <div className={styles.projectTabs}>
-            <button 
-              className={projectType === 'open-source' ? styles.activeTab : ''} 
-              onClick={() => {
-                setProjectType('open-source');
-                setCurrentProjectIndex(0);
-              }}
+          <h1 className="name">Mel</h1>
+          <p className="title">Senior Frontend Engineer</p>
+          
+          <div className="social-links">
+            <motion.a 
+              href="#" 
+              aria-label="GitHub"
+              whileHover={{ y: -3, scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
             >
-              Open Source
+              <GithubIcon />
+            </motion.a>
+            <motion.a 
+              href="#" 
+              aria-label="LinkedIn"
+              whileHover={{ y: -3, scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <LinkedinIcon />
+            </motion.a>
+            <motion.a 
+              href="#" 
+              aria-label="Contact"
+              whileHover={{ y: -3, scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <MailIcon />
+            </motion.a>
+          </div>
+          
+          <div className="skills-section">
+            <h2>Core Competencies</h2>
+            <div className="skills-container">
+              {skills.map((skill, index) => (
+                <motion.div 
+                  key={index} 
+                  className="skill-card"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 + 0.3, duration: 0.5 }}
+                  whileHover={{ 
+                    y: -5, 
+                    boxShadow: isDarkMode 
+                      ? '0 10px 25px rgba(0, 0, 0, 0.3)' 
+                      : '0 10px 25px rgba(59, 130, 246, 0.15)' 
+                  }}
+                >
+                  <div className="skill-icon">
+                    <skill.icon />
+                  </div>
+                  <div className="skill-content">
+                    <h3>{skill.title}</h3>
+                    <p>{skill.description}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div 
+          className="projects-section"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <div className="project-tabs">
+            <button 
+              className={`tab-button ${projectType === 'open-source' ? 'active' : ''}`} 
+              onClick={() => switchProjectType('open-source')}
+            >
+              <motion.span 
+                className="tab-text"
+                whileHover={{ scale: 1.05 }}
+              >
+                Open Source
+              </motion.span>
+              {projectType === 'open-source' && (
+                <motion.div 
+                  className="tab-indicator" 
+                  layoutId="activeTab"
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                />
+              )}
             </button>
             <button 
-              className={projectType === 'company' ? styles.activeTab : ''} 
-              onClick={() => {
-                setProjectType('company');
-                setCurrentProjectIndex(0);
-              }}
+              className={`tab-button ${projectType === 'company' ? 'active' : ''}`} 
+              onClick={() => switchProjectType('company')}
             >
-              Company Projects
+              <motion.span 
+                className="tab-text"
+                whileHover={{ scale: 1.05 }}
+              >
+                Company Projects
+              </motion.span>
+              {projectType === 'company' && (
+                <motion.div 
+                  className="tab-indicator" 
+                  layoutId="activeTab"
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                />
+              )}
             </button>
           </div>
 
           {filteredProjects.length > 0 ? (
-            <motion.div 
-              className={styles.projectCarousel}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              key={currentProject.id}
-            >
-              <div className={styles.projectNavigation}>
-                <button onClick={prevProject} aria-label="Previous Project">
-                  <ArrowLeftIcon />
-                </button>
-                <button onClick={nextProject} aria-label="Next Project">
-                  <ArrowRightIcon />
-                </button>
-              </div>
-
-              <div className={styles.projectDetails}>
-                <motion.img 
-                  src={currentProject.imageUrl} 
-                  alt={currentProject.title}
-                  initial={{ scale: 0.9, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                />
-                
-                <div className={styles.projectInfo}>
-                  <h2>{currentProject.title}</h2>
-                  <p>{currentProject.description}</p>
-                  
-                  <div className={styles.technologies}>
-                    {currentProject.technologies.map((tech, index) => (
-                      <span key={index} className={styles.techBadge}>
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className={styles.projectLinks}>
-                    {currentProject.githubLink && (
-                      <a 
-                        href={currentProject.githubLink} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
+            <div className="project-carousel">
+              <AnimatePresence mode="wait">
+                <motion.div 
+                  key={currentProject.id}
+                  className="project-slide"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <div className="project-image-container">
+                    <motion.img 
+                      src={currentProject.imageUrl} 
+                      alt={currentProject.title}
+                      initial={{ scale: 0.95 }}
+                      animate={{ scale: 1 }}
+                      transition={{ duration: 0.5 }}
+                      className="project-image"
+                    />
+                    <div className="project-navigation">
+                      <motion.button 
+                        onClick={prevProject} 
+                        aria-label="Previous Project"
+                        className="nav-button prev"
+                        whileHover={{ scale: 1.1, backgroundColor: isDarkMode ? '#3b82f6' : '#2563eb' }}
+                        whileTap={{ scale: 0.95 }}
+                        disabled={isTransitioning}
                       >
-                      GitHub
-                      </a>
-                    )}
+                        <ArrowLeftIcon />
+                      </motion.button>
+                      <motion.button 
+                        onClick={nextProject} 
+                        aria-label="Next Project"
+                        className="nav-button next"
+                        whileHover={{ scale: 1.1, backgroundColor: isDarkMode ? '#3b82f6' : '#2563eb' }}
+                        whileTap={{ scale: 0.95 }}
+                        disabled={isTransitioning}
+                      >
+                        <ArrowRightIcon />
+                      </motion.button>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </motion.div>
+                  
+                  <div className="project-info">
+                    <h2>{currentProject.title}</h2>
+                    <p>{currentProject.description}</p>
+                    
+                    <div className="technologies">
+                      {currentProject.technologies.map((tech, index) => (
+                        <motion.span 
+                          key={index} 
+                          className="tech-badge"
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.1, duration: 0.3 }}
+                          whileHover={{ y: -2, scale: 1.05 }}
+                        >
+                          {tech}
+                        </motion.span>
+                      ))}
+                    </div>
+
+                    <div className="project-links">
+                      {currentProject.githubLink && (
+                        <motion.a 
+                          href={currentProject.githubLink} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="link-button github"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <GithubIcon size={18} />
+                          <span>View on GitHub</span>
+                        </motion.a>
+                      )}
+                      {currentProject.demoLink && (
+                        <motion.a 
+                          href={currentProject.demoLink} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="link-button demo"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <ExternalLinkIcon size={18} />
+                          <span>Live Demo</span>
+                        </motion.a>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="project-counter">
+                    {`${currentProjectIndex + 1} / ${filteredProjects.length}`}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
           ) : (
-            <div className={styles.noProjects}>
+            <div className="no-projects">
               No projects in this category
             </div>
           )}
-        </div>
+        </motion.div>
       </div>
     </div>
   );
