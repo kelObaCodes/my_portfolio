@@ -215,9 +215,9 @@ export default function Page() {
           transition={{ duration: 0.6 }}
         >
           <div className="profile-picture">
-            <img src="/images/prof.png" alt="Mel" />
+            <img src="/images/prof.png" alt="Kelvin Igbinoba" />
           </div>
-          <h1 className="name">Mel</h1>
+          <h1 className="name">Kelvin Igbinoba</h1>
           <p className="title">Senior Frontend Engineer</p>
           
           <div className="social-links">
